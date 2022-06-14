@@ -1,0 +1,39 @@
+name: API CI
+
+# si es un poryecto normal, solo basta => on: [push]
+
+on:
+  push:
+    paths:
+      - "./api/**"
+      - ".github/workflow/api-ci.yml"
+
+defaults:
+  run:
+    working-directory: ./api
+
+#esto siempre va
+
+jobs:
+  unit-test:
+    # instalamos un ubuntu
+    runs-on: ubuntu-latest
+    steps:
+      # clonamos nuestro repo
+      - name: Checkout
+        uses: actions/checkout@v2
+      # instalamos node
+      - name: Setup nodejs
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+          cache: "npm"
+          cache-dependency-path: ./api/package-lock.json # esto solo es si es mono repo
+      # instalamos dependencias
+      - name: install
+        shell: bash
+        run: npm ci
+      # corremos las pruebas
+      - name: run unit test
+        shell: bash
+        run: npm run test
