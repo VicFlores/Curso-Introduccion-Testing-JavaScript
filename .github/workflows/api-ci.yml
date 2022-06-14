@@ -6,7 +6,7 @@ on:
   push:
     paths:
       - "./api/**"
-      - ".github/workflow/api-ci.yml"
+      - ".github/workflows/api-ci.yml"
 
 defaults:
   run:
